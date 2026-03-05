@@ -196,6 +196,11 @@ jobs:
           name: ${{ inputs.name }}-Windows
           path: ${{ inputs.name }}.msi
           retention-days: 3
+
+      - name: List release binaries
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: Get-ChildItem -Path src-tauri/target/release/*.exe | Select-Object Name, Length
      
       - name: Upload Portable EXE (Windows)
         if: runner.os == 'Windows'
