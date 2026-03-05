@@ -197,10 +197,10 @@ jobs:
           path: ${{ inputs.name }}.msi
           retention-days: 3
 
-      - name: List release binaries
+      - name: Find built exe
         if: runner.os == 'Windows'
         shell: pwsh
-        run: Get-ChildItem -Path src-tauri/target/release/*.exe | Select-Object Name, Length
+        run: Get-ChildItem -Path src-tauri/target -Recurse -Filter "*.exe" | Where-Object { $_.Length -gt 1MB } | Select-Object FullName, Length
      
       - name: Upload Portable EXE (Windows)
         if: runner.os == 'Windows'
