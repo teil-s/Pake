@@ -197,17 +197,13 @@ jobs:
           path: ${{ inputs.name }}.msi
           retention-days: 3
 
-      - name: Find built exe
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: Get-ChildItem -Path src-tauri/target -Recurse -Filter "*.exe" | Where-Object { $_.Length -gt 1MB } | Select-Object FullName, Length
      
       - name: Upload Portable EXE (Windows)
         if: runner.os == 'Windows'
         uses: actions/upload-artifact@v6
         with:
           name: ${{ inputs.name }}-Windows-portable
-          path: src-tauri/target/release/${{ inputs.name }}.exe
+          path: src-tauri/target/x86_64-pc-windows-msvc/release/pake-${{ inputs.name }}.exe
           retention-days: 3
           if-no-files-found: warn
     
