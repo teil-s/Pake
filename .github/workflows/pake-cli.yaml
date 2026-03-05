@@ -196,7 +196,16 @@ jobs:
           name: ${{ inputs.name }}-Windows
           path: ${{ inputs.name }}.msi
           retention-days: 3
-
+     
+      - name: Upload Portable EXE (Windows)
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ inputs.name }}-Windows-portable
+          path: src-tauri/target/release/${{ inputs.name }}.exe
+          retention-days: 3
+          if-no-files-found: warn
+    
       - name: Rust cache store
         uses: actions/cache/save@v4.2.0
         if: steps.cache_store.outputs.cache-hit != 'true'
